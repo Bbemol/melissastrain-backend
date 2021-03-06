@@ -26,6 +26,6 @@ class Station:
         return f"/stop_areas/stop_area:SNCF:{station_id}/arrivals"
 
     def get_arrivals(self):
-        url = SNCF_ENDPOINT + self.create_query(self.station_id)
+        url = SNCF_ENDPOINT + Station.create_query(self.station_id)
 
         return SNCFService.get(url)
