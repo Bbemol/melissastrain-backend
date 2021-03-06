@@ -9,5 +9,7 @@ load_dotenv(dotenv_path=env_path)
 
 import os
 
-def get_env(var: str):
-    return os.environ.get(var)
+class Env:
+    @staticmethod
+    def get(var: str):
+        return os.environ.get(var)

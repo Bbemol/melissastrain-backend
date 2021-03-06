@@ -1,11 +1,11 @@
 import requests
 from requests.models import HTTPBasicAuth
-from utilities.env import get_env
+from utilities.env import Env
 
 SNCF_ENDPOINT = "https://api.sncf.com/v1/coverage/sncf/"
 
 class SNCFService:
-    token = get_env("sncf-token")
+    token = Env.get("sncf-token")
 
     @staticmethod
     def get(url):
