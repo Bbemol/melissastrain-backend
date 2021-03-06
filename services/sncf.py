@@ -9,7 +9,8 @@ class SNCFService:
     token = Env.get("sncf-token")
 
     @staticmethod
-    def get(url: str, params: set=None):
+    def get(path: str, params: set=None):
+        url = SNCF_ENDPOINT + path
         response = requests.get(url, params=params, auth=HTTPBasicAuth(SNCFService.token, ''))
         status_code = response.status_code
 
@@ -32,9 +33,9 @@ class Station:
         return f"/stop_areas/stop_area:SNCF:{station_id}/arrivals"
 
     def get_arrivals(self):
-        url = SNCF_ENDPOINT + Station.create_query(self.station_id)
+        path = Station.create_query(self.station_id)
 
-        return SNCFService.get(url)
+        return SNCFService.get(path)
 
 class City:
     def __init__(self, city: str):
@@ -45,10 +46,10 @@ class City:
         return place["embedded_type"] == "stop_area"
 
     def get_stations(self):
-        url = SNCF_ENDPOINT + "/places"
+        path = "/places"
         params = {"q": self.city}
 
-        places = SNCFService.get(url, params)["places"]
+        places = SNCFService.get(path, params)["places"]
         stop_areas = filter(City.filter_stop_areas, places)
 
         return list(stop_areas)
