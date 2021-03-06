@@ -2,6 +2,7 @@ import requests
 import re
 from requests.models import HTTPBasicAuth
 from utilities.env import Env
+from utilities.list import List
 
 SNCF_ENDPOINT = "https://api.sncf.com/v1/coverage/sncf/"
 
@@ -34,8 +35,14 @@ class Station:
 
     def get_arrivals(self):
         path = Station.create_query(self.station_id)
+        arrivals = SNCFService.get(path)["arrivals"]
 
-        return SNCFService.get(path)
+        filtered_arrivals = []
+
+        for arrival in arrivals:
+            filtered_arrivals.append(List.filter(arrival, ["display_informations", "stop_date_time"]))
+
+        return filtered_arrivals
 
 class City:
     def __init__(self, city: str):
