@@ -14,7 +14,7 @@ class SNCFService:
         status_code = response.status_code
 
         if status_code != 200:
-            raise RuntimeError(f"Couldn't fetch stop areas. HTTP Code: {status_code}.")
+            raise RuntimeError(f"Couldn't fetch the API. HTTP Code: {status_code}.")
         else:
             return response.json()
 
