@@ -4,17 +4,28 @@ from utilities.env import get_env
 
 SNCF_ENDPOINT = "https://api.sncf.com/v1/coverage/sncf/"
 
-def create_query(stop_area: int):
-    return f"/stop_areas/stop_area:SNCF:{stop_area}/arrivals"
-
-def get_stop_areas(id: int):
+class SNCFService:
     token = get_env("sncf-token")
-    url = SNCF_ENDPOINT + create_query(id)
 
-    response = requests.get(url, auth=HTTPBasicAuth(token, ''))
-    status_code = response.status_code
+    @staticmethod
+    def get(url):
+        response = requests.get(url, auth=HTTPBasicAuth(SNCFService.token, ''))
+        status_code = response.status_code
 
-    if status_code != 200:
-        raise RuntimeError(f"Couldn't fetch stop areas. HTTP Code: {status_code}.")
-    else:
-        return response.json()
+        if status_code != 200:
+            raise RuntimeError(f"Couldn't fetch stop areas. HTTP Code: {status_code}.")
+        else:
+            return response.json()
+
+class Station:
+    def __init__(self, station_id):
+        self.station_id = station_id
+
+    @staticmethod
+    def create_query(station_id):
+        return f"/stop_areas/stop_area:SNCF:{station_id}/arrivals"
+
+    def get_arrivals(self):
+        url = SNCF_ENDPOINT + self.create_query(self.station_id)
+
+        return SNCFService.get(url)
