@@ -3,8 +3,6 @@ from services.sncf import Station, City
 from utilities.list import List
 
 def main():
-    # paris_est = Station(87113001).get_arrivals()
-    # print(paris_est)
     result = []
 
     paris_stations = City("Paris").get_stations()
