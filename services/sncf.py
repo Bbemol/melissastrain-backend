@@ -1,6 +1,5 @@
 import requests
 import re
-from requests.models import HTTPBasicAuth
 from utilities.env import Env
 from utilities.list import List
 
@@ -12,7 +11,7 @@ class SNCFService:
     @staticmethod
     def get(path: str, params: set=None):
         url = SNCF_ENDPOINT + path
-        response = requests.get(url, params=params, auth=HTTPBasicAuth(SNCFService.token, ''))
+        response = requests.get(url, params=params, auth=(SNCFService.token, ''))
         status_code = response.status_code
 
         if status_code != 200:
