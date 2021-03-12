@@ -5,7 +5,7 @@
 ### Install dependencies
 
 ```
-$ pip install -r
+$ pip install -r requirements.txt
 ```
 
 ### Set your environment variables (required)
