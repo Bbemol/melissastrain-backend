@@ -43,20 +43,3 @@ class Station:
             filtered_arrivals.append(List.filter(arrival, ["display_informations", "stop_date_time"]))
 
         return filtered_arrivals
-
-class City:
-    def __init__(self, city: str):
-        self.city = city
-
-    @staticmethod
-    def filter_stop_areas(place):
-        return place["embedded_type"] == "stop_area"
-
-    def get_stations(self):
-        path = "/places"
-        params = {"q": self.city}
-
-        places = SNCFService.get(path, params)["places"]
-        stop_areas = filter(City.filter_stop_areas, places)
-
-        return list(stop_areas)
