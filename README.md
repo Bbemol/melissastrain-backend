@@ -18,4 +18,4 @@ sncf-token = "YOUR_TOKEN_HERE"
 
 ## `$ python main.py`
 
-(should print json)
+(should run Flask server and show JSON output on http://localhost:5000)
