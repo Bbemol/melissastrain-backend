@@ -1,9 +1,11 @@
 from services.sncf import Station, LineTypes
 from utilities.list import List
 from flask import Flask
+from flask_cors import CORS
 import json
 
 app = Flask(__name__)
+CORS(app)
 @app.route('/')
 def arrivals():
    return getArrivalsData()
