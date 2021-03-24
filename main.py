@@ -1,4 +1,4 @@
-from services.sncf import Station, City
+from services.sncf import Station
 from utilities.list import List
 from flask import Flask
 import json
