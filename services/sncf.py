@@ -26,6 +26,7 @@ class Station:
     @staticmethod
     def extract_id(station_id: str):
         regex = r"(.+:)(\d+)"
+        print(f"{station_id} blabla")
         return re.search(regex, station_id).group(2)
 
     @staticmethod
@@ -42,3 +43,21 @@ class Station:
             filtered_arrivals.append(List.filter(arrival, ["display_informations", "stop_date_time"]))
 
         return filtered_arrivals
+
+    def get_arrivals_by_line_types(self, line_types):
+        # filter arrivals by line types
+        return Station.get_arrivals(self)
+
+class LineTypes:
+
+    @staticmethod
+    def get():
+        path = "networks"
+        line_types = SNCFService.get(path)["networks"]
+        line_types = list(map(LineTypes.map_result, line_types))
+        return line_types
+
+    def map_result(line_type):
+        mapped_line_infos = {}
+        mapped_line_infos['name'], mapped_line_infos['id'] = List.filter(line_type, ["name", "id"]).values()
+        return mapped_line_infos

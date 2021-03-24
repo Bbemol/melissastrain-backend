@@ -1,4 +1,4 @@
-from services.sncf import Station
+from services.sncf import Station, LineTypes
 from utilities.list import List
 from flask import Flask
 import json
@@ -7,6 +7,13 @@ app = Flask(__name__)
 @app.route('/')
 def arrivals():
    return getArrivalsData()
+
+@app.route('/linetypes')
+def line_types():
+    result = []
+    line_types = LineTypes.get()
+    return json.dumps(line_types)
+
 
 def getArrivalsData():
     result = []
@@ -21,7 +28,8 @@ def getArrivalsData():
 
     for station in paris_stations:
         name, id = List.filter(station, ["name", "id"]).values()
-        arrivals = Station(id).get_arrivals()
+        # pass in the line types to filter the stations
+        arrivals = Station(id).get_arrivals_by_line_types([])
         result.append({"name": name, "id": id, "arrivals": arrivals})
     return json.dumps(result)
 
