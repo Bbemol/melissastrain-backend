@@ -11,6 +11,8 @@ def arrivals():
 def getArrivalsData():
     result = []
 
+    print('coucou')
+
     paris_stations = [
         {'id': 'stop_area:SNCF:87384008', 'name': 'Saint-Lazare'},
         {'id': 'stop_area:SNCF:87686006', 'name': 'Gare de Lyon'},
