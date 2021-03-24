@@ -27,6 +27,7 @@ def getArrivalsData():
 
 def main():
     app.run()
+    print("HOLA")
 
 if __name__ == '__main__':
     main()
