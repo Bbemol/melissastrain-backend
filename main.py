@@ -28,7 +28,8 @@ def getArrivalsData():
 
     for station in paris_stations:
         name, id = List.filter(station, ["name", "id"]).values()
-        arrivals = Station(id).get_arrivals()
+        # pass in the line types to filter the stations
+        arrivals = Station(id).get_arrivals_by_line_types([])
         result.append({"name": name, "id": id, "arrivals": arrivals})
     return json.dumps(result)
 

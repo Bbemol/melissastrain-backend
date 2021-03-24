@@ -26,6 +26,7 @@ class Station:
     @staticmethod
     def extract_id(station_id: str):
         regex = r"(.+:)(\d+)"
+        print(f"{station_id} blabla")
         return re.search(regex, station_id).group(2)
 
     @staticmethod
@@ -43,7 +44,12 @@ class Station:
 
         return filtered_arrivals
 
+    def get_arrivals_by_line_types(self, line_types):
+        # filter arrivals by line types
+        return Station.get_arrivals(self)
+
 class LineTypes:
+
     @staticmethod
     def get():
         path = "networks"
