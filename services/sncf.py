@@ -35,7 +35,7 @@ class Station:
     def get_arrivals(self):
         path = Station.create_query(self.station_id)
         arrivals = SNCFService.get(path)["arrivals"]
-        filtered_arrivals = List.filterListOfDico(arrivals, ["display_informations", "stop_date_time"])
+        filtered_arrivals = List.filter_dico_list(arrivals, ["display_informations", "stop_date_time"])
         return filtered_arrivals
 
     def get_arrivals_by_line_types(self, line_types):
@@ -50,5 +50,5 @@ class LineTypes:
     def get():
         path = "networks"
         line_types = SNCFService.get(path)["networks"]
-        line_types = List.filterListOfDico(line_types, ["id", "name"])
+        line_types = List.filter_dico_list(line_types, ["id", "name"])
         return line_types

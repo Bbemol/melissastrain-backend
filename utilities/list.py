@@ -4,7 +4,7 @@ class List:
         return {key: dico[key] for key in keys}
 
     @staticmethod
-    def filterListOfDico(list: list, keys: list):
+    def filter_dico_list(list: list, keys: list):
         filteredList = []
         for item in list:
             filteredList.append(List.filter(item, keys))
