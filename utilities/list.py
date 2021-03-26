@@ -1,4 +1,12 @@
 class List:
     @staticmethod
-    def filter(list: list, keys: list):
-        return {key: list[key] for key in keys}
+    def filter(dico: dict, keys: list):
+        return {key: dico[key] for key in keys}
+
+    @staticmethod
+    def filterListOfDico(list: list, keys: list):
+        filteredList = []
+        for item in list:
+            filteredList.append(List.filter(item, keys))
+        return filteredList
+
