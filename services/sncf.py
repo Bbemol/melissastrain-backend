@@ -1,3 +1,4 @@
+from flask.helpers import make_response
 import requests
 import re
 from utilities.env import Env
@@ -18,6 +19,21 @@ class SNCFService:
             raise RuntimeError(f"Couldn't fetch the API. HTTP Code: {status_code}.")
         else:
             return response.json()
+
+class Endpoint:
+    @staticmethod
+    def make(data, mimetype='application/json'):
+        response = make_response(data)
+        response.mimetype = mimetype
+        return response
+
+    @staticmethod
+    def not_implemented():
+        return Endpoint.make({"error": "Not yet implemented"})
+
+    @staticmethod
+    def empty():
+        return Endpoint.make({"error": "Empty response"})
 
 class Station:
     def __init__(self, station_id: str):

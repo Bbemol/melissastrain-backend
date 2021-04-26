@@ -1,5 +1,9 @@
 # testpy
 
+Swagger documentation is available here:
+
+- [1.0.0](https://app.swaggerhub.com/apis/oscar-marion/melissa/1.0.0)
+
 ## Installation steps
 
 ### Install dependencies

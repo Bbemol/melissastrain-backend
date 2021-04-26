@@ -1,39 +1,32 @@
-from services.sncf import Station, LineTypes
-from utilities.list import List
+from endpoints.arrival import Arrival
+from endpoints.place import Place
+from endpoints.station import Station
+from services.sncf import Endpoint
 from flask import Flask
 from flask_cors import CORS
-import json
 
 app = Flask(__name__)
 CORS(app)
+
 @app.route('/')
-def arrivals():
-   return getArrivalsData()
+def root():
+    return Endpoint.empty()
 
-@app.route('/linetypes')
-def line_types():
-    result = []
-    line_types = LineTypes.get()
-    return json.dumps(line_types)
+@app.route('/place/<placeId>')
+def getPlaceById(placeId):
+    return Place.get(placeId)
 
+@app.route('/arrival/<arrivalId>')
+def getArrivalById(arrivalId):
+    return Arrival.get(arrivalId)
 
-def getArrivalsData():
-    result = []
+@app.route('/station/<stationId>')
+def getStationById(stationId):
+    return Station.get(stationId)
 
-    paris_stations = [
-        {'id': 'stop_area:SNCF:87384008', 'name': 'Saint-Lazare'},
-        {'id': 'stop_area:SNCF:87686006', 'name': 'Gare de Lyon'},
-        {'id': 'stop_area:SNCF:87391003', 'name': 'Montparnasse'},
-        {'id': 'stop_area:SNCF:87271007', 'name': 'Paris Nord'},
-        {'id': 'stop_area:SNCF:87547000', 'name': 'Paris Austerlitz'}
-    ]
-
-    for station in paris_stations:
-        name, id = List.filter(station, ["name", "id"]).values()
-        # pass in the line types to filter the stations
-        arrivals = Station(id).get_arrivals_by_line_types([])
-        result.append({"name": name, "id": id, "arrivals": arrivals})
-    return json.dumps(result)
+@app.route('/station/<stationId>/arrivals')
+def getArrivalsByStationId(stationId):
+    return Station.getArrivals(stationId)
 
 def main():
     app.run()
