@@ -1,5 +1,6 @@
 from flask.helpers import make_response
 import requests
+import requests_cache
 import re
 from utilities.env import Env
 from utilities.list import List
@@ -10,7 +11,9 @@ class SNCFService:
     token = Env.get("sncf-token")
 
     @staticmethod
-    def get(path: str, params: set=None):
+    def get(path: str, params: set=None, ttl: int=180):
+        if ttl != 0:
+            requests_cache.install_cache('sncf_cache', backend='sqlite', expire_after=ttl)
         url = SNCF_ENDPOINT + path
         response = requests.get(url, params=params, auth=(SNCFService.token, ''))
         status_code = response.status_code
@@ -35,9 +38,9 @@ class Endpoint:
     def empty():
         return Endpoint.make({"error": "Empty response"})
 
-class Station:
+class StationService:
     def __init__(self, station_id: str):
-        self.station_id = Station.extract_id(station_id)
+        self.station_id = StationService.extract_id(station_id)
 
     @staticmethod
     def extract_id(station_id: str):
@@ -49,18 +52,18 @@ class Station:
         return f"/stop_areas/stop_area:SNCF:{station_id}/arrivals"
 
     def get_arrivals(self):
-        path = Station.create_query(self.station_id)
+        path = StationService.create_query(self.station_id)
         arrivals = SNCFService.get(path)["arrivals"]
         filtered_arrivals = List.filter_dico_list(arrivals, ["display_informations", "stop_date_time"])
         return filtered_arrivals
 
     def get_arrivals_by_line_types(self, line_types):
         # filter arrivals by line types
-        all_arrivals = Station.get_arrivals(self)
+        all_arrivals = StationService.get_arrivals(self)
         filtered_arrivals = all_arrivals
         return filtered_arrivals
 
-class LineTypes:
+class LineTypesService:
 
     @staticmethod
     def get():

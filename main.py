@@ -28,6 +28,10 @@ def getStationById(stationId):
 def getArrivalsByStationId(stationId):
     return Station.getArrivals(stationId)
 
+@app.route('/station/<stationId>/arrivals_legacy')
+def getArrivalsByStationIdLegacy(stationId):
+    return Station.LEGACY_getArrivalsData(stationId)
+
 def main():
     app.run()
 
