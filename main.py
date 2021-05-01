@@ -30,12 +30,12 @@ def get_arrivals_by_station_id(stationId):
     return Station.get_arrivals(stationId)
 
 #TODO: Delete legacy endpoint
-@app.route('/station/legacy_arrivals')
+@app.route('/legacy/arrivals')
 def legacy_get_arrivals_by_station_id():
     return Station.legacy_get_arrivals_data()
 
 #TODO: Delete legacy endpoint
-@app.route('/station/legacy_networks')
+@app.route('/legacy/networks')
 def legacy_get_line_types():
     return Networks.legacy_get_line_types()
 
