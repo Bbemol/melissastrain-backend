@@ -9,7 +9,7 @@ class Station:
 
     @staticmethod
     def get_arrivals(id: str):
-        data = {"stationId": id, "arrivals": []}
+        data = StationService(id).get_arrivals_by_line_types()
         return Endpoint.make(data)
 
     #TODO: The method below is legacy and needs to be reimplemented
@@ -27,6 +27,6 @@ class Station:
         for station in paris_stations:
             name, id = List.filter(station, ["name", "id"]).values()
             # pass in the line types to filter the stations
-            arrivals = StationService(id).get_arrivals_by_line_types([])
+            arrivals = StationService(id).get_arrivals_by_line_types()
             result.append({"name": name, "id": id, "arrivals": arrivals})
         return Endpoint.make(result)

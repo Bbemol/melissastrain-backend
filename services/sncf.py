@@ -59,7 +59,7 @@ class StationService:
         filtered_arrivals = List.filter_dico_list(arrivals, ["display_informations", "stop_date_time"])
         return filtered_arrivals
 
-    def get_arrivals_by_line_types(self, line_types):
+    def get_arrivals_by_line_types(self):
         # filter arrivals by line types
         all_arrivals = StationService.get_arrivals(self)
         filtered_arrivals = all_arrivals
