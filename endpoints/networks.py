@@ -1,7 +1,4 @@
-from os import stat
-from services.sncf import Endpoint, LineTypes
-
-import json
+from services.sncf import Endpoint, LineTypesService
 
 class Networks:
     @staticmethod
@@ -9,8 +6,8 @@ class Networks:
         data = {"networks": id}
         Endpoint.make(data)
 
-    # (!) The method below is legacy and needs to be reimplemented
+    #TODO: The method below is legacy and needs to be reimplemented
     @staticmethod
-    def line_types():
-        line_types = LineTypes.get()
-        return json.dumps(line_types)
+    def legacy_get_line_types():
+        line_types = LineTypesService.get()
+        return Endpoint.make(line_types)

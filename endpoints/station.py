@@ -1,6 +1,5 @@
 from utilities.list import List
 from services.sncf import Endpoint, StationService
-import json
 
 class Station:
     @staticmethod
@@ -9,12 +8,12 @@ class Station:
         return Endpoint.make(data)
 
     @staticmethod
-    def getArrivals(id: str):
+    def get_arrivals(id: str):
         data = {"stationId": id, "arrivals": []}
         return Endpoint.make(data)
 
-    # (!) The method below is legacy and needs to be reimplemented
-    def LEGACY_getArrivalsData(stationId: str):
+    #TODO: The method below is legacy and needs to be reimplemented
+    def legacy_get_arrivals_data():
         result = []
 
         paris_stations = [
@@ -30,4 +29,4 @@ class Station:
             # pass in the line types to filter the stations
             arrivals = StationService(id).get_arrivals_by_line_types([])
             result.append({"name": name, "id": id, "arrivals": arrivals})
-        return json.dumps(result)
+        return Endpoint.make(result)

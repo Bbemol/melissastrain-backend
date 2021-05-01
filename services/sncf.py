@@ -2,6 +2,7 @@ from flask.helpers import make_response
 import requests
 import requests_cache
 import re
+import json
 from utilities.env import Env
 from utilities.list import List
 
@@ -26,6 +27,7 @@ class SNCFService:
 class Endpoint:
     @staticmethod
     def make(data, mimetype='application/json'):
+        data = json.dumps(data)
         response = make_response(data)
         response.mimetype = mimetype
         return response
