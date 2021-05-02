@@ -1,10 +1,8 @@
 from flask.helpers import make_response
 import requests
 import requests_cache
-import re
 import json
 from utilities.env import Env
-from utilities.list import List
 
 SNCF_ENDPOINT = "https://api.sncf.com/v1/coverage/sncf/"
 
@@ -37,39 +35,12 @@ class Endpoint:
         return Endpoint.make({"error": "Not yet implemented"})
 
     @staticmethod
-    def empty():
-        return Endpoint.make({"error": "Empty response"})
-
-class StationService:
-    def __init__(self, station_id: str):
-        self.station_id = StationService.extract_id(station_id)
-
-    @staticmethod
-    def extract_id(station_id: str):
-        regex = r"(.+:)(\d+)"
-        return re.search(regex, station_id).group(2)
-
-    @staticmethod
-    def create_query(station_id: int):
-        return f"/stop_areas/stop_area:SNCF:{station_id}/arrivals"
-
-    def get_arrivals(self):
-        path = StationService.create_query(self.station_id)
-        arrivals = SNCFService.get(path)["arrivals"]
-        filtered_arrivals = List.filter_dico_list(arrivals, ["display_informations", "stop_date_time"])
-        return filtered_arrivals
-
-    def get_arrivals_by_line_types(self):
-        # filter arrivals by line types
-        all_arrivals = StationService.get_arrivals(self)
-        filtered_arrivals = all_arrivals
-        return filtered_arrivals
-
-class LineTypesService:
-
-    @staticmethod
-    def get():
-        path = "networks"
-        line_types = SNCFService.get(path)["networks"]
-        line_types = List.filter_dico_list(line_types, ["id", "name"])
-        return line_types
+    def error(e):
+        response = e.get_response()
+        response.data = json.dumps({
+            "code": e.code,
+            "name": e.name,
+            "description": e.description
+        })
+        response.mimetype = 'application/json'
+        return response
